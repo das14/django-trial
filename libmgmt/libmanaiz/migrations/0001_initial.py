@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import django.core.validators
 
 
 class Migration(migrations.Migration):
@@ -18,9 +19,9 @@ class Migration(migrations.Migration):
                 ('pub_date', models.DateTimeField()),
                 ('author', models.CharField(max_length=250)),
                 ('publisher', models.CharField(max_length=250)),
-                ('isbn', models.IntegerField()),
+                ('isbn', models.PositiveIntegerField()),
                 ('language', models.CharField(max_length=50)),
-                ('no_of_pages', models.IntegerField()),
+                ('no_of_pages', models.PositiveIntegerField()),
                 ('date_added', models.DateTimeField(auto_now_add=True)),
             ],
         ),
@@ -30,7 +31,16 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('borrowed_date', models.DateTimeField()),
                 ('borrowed_reason', models.CharField(default=b'No reason provided', max_length=1000)),
-                ('book', models.ForeignKey(to='libmanaiz.Book')),
+                ('book_borrowed', models.ForeignKey(to='libmanaiz.Book')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Comment',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('rating_value', models.PositiveIntegerField(validators=[django.core.validators.MaxValueValidator(10)])),
+                ('date_of_rating', models.DateTimeField(auto_now_add=True)),
+                ('rating_book', models.ForeignKey(to='libmanaiz.Book')),
             ],
         ),
         migrations.CreateModel(
@@ -39,6 +49,11 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=300)),
             ],
+        ),
+        migrations.AddField(
+            model_name='comment',
+            name='rating_by',
+            field=models.ForeignKey(to='libmanaiz.Patron'),
         ),
         migrations.AddField(
             model_name='borrow',
