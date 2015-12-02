@@ -10,6 +10,7 @@ class Book(models.Model):
 	language = models.CharField(max_length = 50)
 	no_of_pages = models.PositiveIntegerField()
 	date_added = models.DateTimeField(auto_now_add = True)
+        number_of_copies = models.PositiveIntegerField(default = 1)
 
 	def __str__ (self):
 		return self.book_title
