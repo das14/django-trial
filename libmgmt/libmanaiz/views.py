@@ -9,7 +9,9 @@ import urllib
 def index(request):
 	template = loader.get_template('libmanaiz/index.html')
 	popular_book = Comment.objects.order_by('rating_value')
-	recently_added = Book.objects.order_by('date_added')[:6:-1]
+	recently_added = Book.objects.order_by('date_added')[::-1]
+	recently_added = recently_added[:6]
+	print ("recently_added", recently_added)
 	context = RequestContext(request, {
 		'recently_added': recently_added,
 		'popular_book': popular_book,
@@ -27,6 +29,15 @@ def all_books(request):
 def test(request):
 	template = loader.get_template('libmanaiz/test.html')
 	return HttpResponse(template.render())
+
+def book_page(request, book_title):
+	book_title = book_title.replace('-', ' ').replace('_', ' ')
+	book = Book.objects.filter(book_title = book_title)
+	template = loader.get_template('libmanaiz/individual_book.html')
+	context = RequestContext(request, {
+		'book': book,
+	})
+	return HttpResponse(template.render(context))
 
 def add_book_form_upload(request):
 	if request.method == 'GET':
