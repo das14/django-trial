@@ -22,6 +22,8 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <link rel="stylesheet" href="{% static 'css/form-labels-on-top.css' %}">
+
 
 </head>
 
@@ -45,7 +47,7 @@
             <!-- Navbar links -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <li>
                         <a href="/">Homepage</a>
                     </li>
                     <li>
@@ -59,7 +61,7 @@
                     <li>
                         <a href="/about">About</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="/add_book">Add New Book</a>
                     </li>
                 </ul>
@@ -72,58 +74,50 @@
     <!-- Content -->
     <div class="container">
 
-        <!-- Heading -->
-        <div class="row">
-	  {% if popular_book %}
-            <div class="col-lg-12">
-                <h1 class="page-header">Popular Books</h1>
+
+    <!-- NEW FORM START -->
+        <form class="form-labels-on-top" method="post" action="/add_book">
+        {% csrf_token %}
+            <div class="form-title-row">
+                <h1>Add New Book</h1>
             </div>
 
-            {% for b in popular_book %}
-                <div class="col-md-4 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src={{b.rating_book.image_link}} alt="">
-                </a>
-                <h3>
-                    <a href="#">{{b.rating_book.book_title}}</a>
-                <br>
-                        <small>{{b.rating_book.author}}</small>
-                    </h3>
-                    <p>{{b.}}</p>
-                </div>
-            {% endfor %}
-
-	  {% endif %}
-        </div>
-        <!-- /.row -->
-
-        <!-- Projects Row -->
-        <div class="row">
-
-        {% if recently_added %}
-		<div class = "col-lg-12">
-		  	<h1 class = "page-header">
-		    	  <small>Recently Added</small>
-			</h1>
-        	</div>
-		{% for recent_book in recently_added %}
-
-            <div class="col-md-4 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src={{recent_book.image_link}} alt="">
-                </a>
-                <h3>
-                    <a href="#">{{recent_book.book_title}}</a>
-		    <br>
-                    <small>{{recent_book.author}}</small>
-                </h3>
-                <p>{{recent_book.}}</p>
+            {% for field in form %}
+            <div class="form-row">
+                <label>
+                    <span>{{field.label_tag}}</span>
+                    {% if forloop.counter != 2 and forloop.counter != 3 and forloop.counter != 4%}
+                        <input type="text" name={{field.html_name}} id="id_{{field.html_name}}">
+                    {% elif forloop.counter == 2 %}
+                        <select name={{field.html_name}} id="id_{{field.html_name}}">
+                            {% for i in "111111111111" %}
+                                <option>{{forloop.counter}}</option>
+                            {% endfor %}
+                        </select>
+                    {% elif forloop.counter == 3 %}
+                        <select name={{field.html_name}} id="id_{{field.html_name}}">
+                            {% for i in "1111111111111111111111111111111" %}
+                                <option>{{forloop.counter}}</option>
+                            {% endfor %}
+                        </select>
+                    {% elif forloop.counter == 4 %}
+                        <select name={{field.html_name}} id="id_{{field.html_name}}">
+                            {% for i in "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" %}
+                                <option>{{forloop.counter0|add:"+1900"}}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                    {{field.errors}}
+                </label>
             </div>
-            
             {% endfor %}
-        {% endif %}
 
-        </div>
+            <div class="form-row">
+                <button type="submit" value="Submit">Add Book</button>
+            </div>
+
+        </form>
+    <!-- NEW FORM END -->
 
 		<hr>
 

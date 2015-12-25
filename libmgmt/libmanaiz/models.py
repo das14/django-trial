@@ -10,7 +10,8 @@ class Book(models.Model):
 	language = models.CharField(max_length = 50)
 	no_of_pages = models.PositiveIntegerField()
 	date_added = models.DateTimeField(auto_now_add = True)
-        number_of_copies = models.PositiveIntegerField(default = 1)
+	number_of_copies = models.PositiveIntegerField(default = 1)
+	image_link = models.CharField(max_length = 1000, default = "http://www.clker.com/cliparts/6/4/J/9/E/9/closed-book-md.png")
 
 	def __str__ (self):
 		return self.book_title
@@ -31,10 +32,10 @@ class Borrow(models.Model):
 		return self.borrowed_reason
 
 class Comment(models.Model):
-   	rating_book = models.ForeignKey(Book, null = False)
-        rating_value = models.PositiveIntegerField(validators = [MaxValueValidator(10)])
-        date_of_rating = models.DateTimeField(auto_now_add = True)
-        rating_by = models.ForeignKey(Patron)
-        
-        def __str__(self):
-                return self.rating_value
+	rating_book = models.ForeignKey(Book, null = False)
+	rating_value = models.PositiveIntegerField(validators = [MaxValueValidator(10)])
+	date_of_rating = models.DateTimeField(auto_now_add = True)
+	rating_by = models.ForeignKey(Patron)
+
+	def __str__(self):
+		return str(self.rating_value)

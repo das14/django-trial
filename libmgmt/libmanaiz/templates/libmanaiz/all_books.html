@@ -45,10 +45,10 @@
             <!-- Navbar links -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <li>
                         <a href="/">Homepage</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="/all_books">All Books</a>
                     </li>
                     <li>
@@ -72,52 +72,27 @@
     <!-- Content -->
     <div class="container">
 
-        <!-- Heading -->
-        <div class="row">
-	  {% if popular_book %}
-            <div class="col-lg-12">
-                <h1 class="page-header">Popular Books</h1>
-            </div>
-
-            {% for b in popular_book %}
-                <div class="col-md-4 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src={{b.rating_book.image_link}} alt="">
-                </a>
-                <h3>
-                    <a href="#">{{b.rating_book.book_title}}</a>
-                <br>
-                        <small>{{b.rating_book.author}}</small>
-                    </h3>
-                    <p>{{b.}}</p>
-                </div>
-            {% endfor %}
-
-	  {% endif %}
-        </div>
-        <!-- /.row -->
-
         <!-- Projects Row -->
         <div class="row">
 
-        {% if recently_added %}
+        {% if all_books %}
 		<div class = "col-lg-12">
 		  	<h1 class = "page-header">
-		    	  <small>Recently Added</small>
+		    	  <small>All books in inventory</small>
 			</h1>
         	</div>
-		{% for recent_book in recently_added %}
+		{% for b in all_books %}
 
             <div class="col-md-4 portfolio-item">
                 <a href="#">
-                    <img class="img-responsive" src={{recent_book.image_link}} alt="">
+                    <img class="img-responsive" src={{b.image_link}} alt="">
                 </a>
                 <h3>
-                    <a href="#">{{recent_book.book_title}}</a>
+                    <a href="#">{{b.book_title}}</a>
 		    <br>
-                    <small>{{recent_book.author}}</small>
+                    <small>{{b.author}}</small>
                 </h3>
-                <p>{{recent_book.}}</p>
+                <p>{{b.}}</p>
             </div>
             
             {% endfor %}
