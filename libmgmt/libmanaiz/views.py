@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.template import RequestContext, loader
+from django.template import RequestContext, loader, Template
 from .models import Book, Comment
 from .forms import AddBookForm
 
@@ -64,6 +64,15 @@ def add_book_form_upload(request):
 				# Set image to default image
 				image_link = "http://www.clker.com/cliparts/6/4/J/9/E/9/closed-book-md.png"
 
+			##############################################
+
+			try:
+				urllib.urlretrieve(image_link, "/home/jeet/projects/Django Library Project/django-trial/libmgmt/libmanaiz/images/" + book_title)
+			except Exception, e:
+				print (e)
+
+			##############################################
+
 			new_book = Book.objects.create(
 				book_title = book_title,
 				pub_date = str(publication_year) + "-" + str(publication_month) + "-" + str(publication_day),
@@ -79,3 +88,7 @@ def add_book_form_upload(request):
 	return render(request, 'libmanaiz/add_book.html', {
 		'form': form,
 		})
+
+def image(request, image_title):
+    image_data = open("/home/jeet/projects/Django Library Project/django-trial/libmgmt/libmanaiz/images/" + image_title, "rb").read()
+    return HttpResponse(image_data, content_type="image/png")

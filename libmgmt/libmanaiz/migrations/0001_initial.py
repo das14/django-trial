@@ -23,6 +23,8 @@ class Migration(migrations.Migration):
                 ('language', models.CharField(max_length=50)),
                 ('no_of_pages', models.PositiveIntegerField()),
                 ('date_added', models.DateTimeField(auto_now_add=True)),
+                ('number_of_copies', models.PositiveIntegerField(default=1)),
+                ('image_link', models.CharField(default=b'http://www.clker.com/cliparts/6/4/J/9/E/9/closed-book-md.png', max_length=1000)),
             ],
         ),
         migrations.CreateModel(
