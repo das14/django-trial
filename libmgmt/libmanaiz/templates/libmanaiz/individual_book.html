@@ -87,6 +87,9 @@
                         <div class="col-md-6">
                             <h1>{{b.book_title}}</h1>
                             <h3>{{b.author}}</h3>
+                            {% if logged_in %}
+                                <h1>Hello World</h1>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

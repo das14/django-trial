@@ -5,6 +5,7 @@ from .models import Book, Comment
 from .forms import AddBookForm
 
 import urllib
+from PIL import Image
 
 def index(request):
 	template = loader.get_template('libmanaiz/index.html')
@@ -58,20 +59,22 @@ def add_book_form_upload(request):
 			number_of_copies = form.cleaned_data['number_of_copies']
 			image_link = form.cleaned_data['image_link']
 
-			print ("image_link = ", image_link)
-
 			if image_link == "":
 				# Set image to default image
 				image_link = "http://www.clker.com/cliparts/6/4/J/9/E/9/closed-book-md.png"
 
-			##############################################
-
 			try:
+				size = 500, 400
 				urllib.urlretrieve(image_link, "/home/jeet/projects/Django Library Project/django-trial/libmgmt/libmanaiz/images/" + book_title)
+
+				try:
+					im = Image.open("/home/jeet/projects/Django Library Project/django-trial/libmgmt/libmanaiz/images/" + book_title)
+					im.thumbnail(size, Image.ANTIALIAS)
+					im.save("/home/jeet/projects/Django Library Project/django-trial/libmgmt/libmanaiz/images/" + book_title, "JPEG")
+				except IOError:
+					print "############################# cannot create thumbnail"
 			except Exception, e:
 				print (e)
-
-			##############################################
 
 			new_book = Book.objects.create(
 				book_title = book_title,
