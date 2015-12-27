@@ -16,3 +16,10 @@ class AddBookForm(forms.Form):
 class LogInForm(forms.Form):
 	username = forms.CharField(max_length = 100)
 	password = forms.CharField(max_length = 100)
+
+class SignUpForm(forms.Form):
+	firstName = forms.CharField(max_length = 100)
+	lastName = forms.CharField(max_length = 100)
+	email = forms.EmailField(max_length = 100)
+	userName = forms.CharField(max_length = 100)
+	passWord = forms.CharField(max_length = 100)

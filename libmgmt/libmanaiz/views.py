@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader, Template
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 from .models import Book, Comment
 from .forms import *
@@ -137,4 +138,34 @@ def log_user_in(request):
 def log_user_out(request):
 	if request.user.is_authenticated():
 		logout(request)
+	return HttpResponseRedirect('/')
+
+def sign_user_up(request):
+	if not request.user.is_authenticated():
+		if request.method == 'GET':
+			form = SignUpForm()
+		else:
+			form = SignUpForm(request.POST)
+
+			if form.is_valid():
+				print ("asdklasjdlkasjdklajskldjaklsdjaklsjdkasjdklajskldjaklsd")
+				firstName = form.cleaned_data['firstName']
+				lastName = form.cleaned_data['lastName']
+				email = form.cleaned_data['email']
+				username = form.cleaned_data['userName']
+				password = form.cleaned_data['passWord']
+
+				user_test1 = authenticate(username = username)
+				user_test2 = authenticate(email = email)
+				if user_test1 is None:
+					if user_test2 is None:
+						user = User.objects.create_user(first_name = firstName, last_name = lastName, username = username, password = password, email = email)
+					else:
+						print ("####################### We already have this email address register")
+				else:
+					print ("####################### username already taken")
+				return HttpResponseRedirect('/')
+		return render(request, 'libmanaiz/sign_up.html', {
+			'form': form,
+			})
 	return HttpResponseRedirect('/')
