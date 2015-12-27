@@ -12,3 +12,7 @@ class AddBookForm(forms.Form):
 	number_of_pages = forms.IntegerField()
 	number_of_copies = forms.IntegerField()
 	image_link = forms.CharField(max_length = 1000, required = False)
+
+class LogInForm(forms.Form):
+	username = forms.CharField(max_length = 100)
+	password = forms.CharField(max_length = 100)
